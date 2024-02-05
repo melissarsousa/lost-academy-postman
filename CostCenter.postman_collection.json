@@ -1,0 +1,687 @@
+{
+	"info": {
+		"_postman_id": "467c670c-6e8f-4e85-83d6-4407b2eef0c1",
+		"name": "CostCenter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25130207",
+		"_collection_link": "https://gold-desert-162524.postman.co/workspace/Academy---LOST~1751a5a7-72e5-4ff1-8404-6e437fb52876/collection/25130207-467c670c-6e8f-4e85-83d6-4407b2eef0c1?action=share&source=collection_link&creator=25130207"
+	},
+	"item": [
+		{
+			"name": "List",
+			"item": [
+				{
+					"name": "List Cost Centers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Include",
+			"item": [
+				{
+					"name": "New Cost Center",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function costName(){",
+									"    let name = [\"QA\", \"Desenvolvimento\", \"Arte\", \"Marketing\", \"Finanças\", \"Vendas\", \"SAC\", \"Recursos Humanos\", \"Jurídico\", \"Pesquisa e Desenvolvimento\", \"Logística\", \"Inovação\", \"DevOps\", \"Projetos\", \"Redes Sociais\", \"Sales\", \"SalesForce\", \"AWS\", \"Diretoria\", \"Board\", \"Central\"]",
+									"    let costCenter = name[Math.floor(Math.random() * name.length)] + \" & \" + name[Math.floor(Math.random() * name.length)]",
+									"",
+									"    return costCenter",
+									"}",
+									"",
+									"pm.environment.set(\"CostCenterName\", costName())"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 201', function () {",
+									"    pm.response.to.have.status(201);",
+									"})",
+									"",
+									"pm.test('Message is right', function () {",
+									"    pm.expect(pm.response.json().msg).to.eql('Cadastro realizado com sucesso.');",
+									"})",
+									"",
+									"pm.test(\"Id exists\", function(){",
+									"    pm.expect(pm.response.json().newCostCenter.costCenterCode).to.exist;",
+									"    pm.expect(pm.response.json().newCostCenter.costCenterName).to.exist;",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"costCenterName\": \"{{CostCenterName}}\",\n  \"boardId\": \"{{Id_board}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Cost Center Duplicated",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400 or 409', function () {",
+									"    pm.expect(pm.response.status).to.be.oneOf([\"Bad Request\", \"Conflict\"]);",
+									"",
+									"});",
+									"",
+									"pm.test('Message is right', function () {",
+									"    pm.expect(pm.response.json().alert[0]).to.eql('Não é possível salvar esse registro. Centro de custos já cadastrado no sistema.');",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"costCenterName\": \"{{CostCenterName}}\",\n  \"boardId\": \"{{Id_board}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Cost Center Without Id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function costName(){",
+									"    let name = [\"QA\", \"Desenvolvimento\", \"Arte\", \"Marketing\", \"Finanças\", \"Vendas\", \"SAC\", \"Recursos Humanos\", \"Jurídico\", \"Pesquisa e Desenvolvimento\", \"Logística\", \"Inovação\"]",
+									"    let costCenter = name[Math.floor(Math.random() * name.length)] + \" & \" + name[Math.floor(Math.random() * name.length)]",
+									"",
+									"    return costCenter",
+									"}",
+									"",
+									"pm.environment.set(\"CostCenterName\", costName())"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {",
+									"    pm.response.to.have.status(400);",
+									"})",
+									"",
+									"pm.test('Message is right', function () {",
+									"    pm.expect(pm.response.json().error[0]).to.eql(\"O campo 'ID da diretoria' é obrigatório.\");",
+									"})",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"costCenterName\": \"{{CostCenterName}}\",\n  \"boardId\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Cost Center With Invalid Id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function costName(){",
+									"    let name = [\"QA\", \"Desenvolvimento\", \"Arte\", \"Marketing\", \"Finanças\", \"Vendas\", \"SAC\", \"Recursos Humanos\", \"Jurídico\", \"Pesquisa e Desenvolvimento\", \"Logística\", \"Inovação\"]",
+									"    let costCenter = name[Math.floor(Math.random() * name.length)] + \" & \" + name[Math.floor(Math.random() * name.length)]",
+									"",
+									"    return costCenter",
+									"}",
+									"",
+									"pm.environment.set(\"CostCenterName\", costName())",
+									"",
+									"pm.environment.set(\"WrongIdBoard\", pm.environment.get(\"Id_board\")+1)",
+									"console.log(pm.environment.get(\"WrongIdBoard\"))",
+									"console.log(pm.environment.get(\"Id_board\"))"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 500 or 409', function () {",
+									"    pm.expect(pm.response.status).to.be.oneOf([\"Internal Server Error\", \"Conflict\"]);",
+									"",
+									"});",
+									"",
+									"pm.test('Message is right', function () {",
+									"    pm.expect(pm.response.json().msg).to.not.eql('Cadastro realizado com sucesso.');",
+									"})",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"costCenterName\": \"{{CostCenterName}}\",\n  \"boardId\": \"{{WrongIdBoard}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Cost Center with more than 50 characters",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function costName(){",
+									"    let name = [\"QuantumInnovate Dynamics\", \"TechVvvanguard Solutions\", \"NebulaPulses Enterprises\", \"FusionnCraft Innovations\", \"OmniSpectra Technologies\", \"CyberspacePine Solutions\", \"GalactStrive Innovations\", \"NebulaStream Innovations\", \"VisionaPulse Enterprises\"]",
+									"    let costCenter = name[Math.floor(Math.random() * name.length)] + \" & \" + name[Math.floor(Math.random() * name.length)]",
+									"",
+									"    return costCenter",
+									"}",
+									"",
+									"pm.environment.set(\"CostCenterName\", costName())"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {",
+									"    pm.response.to.have.status(400);",
+									"})",
+									"",
+									"pm.test('Message is right', function () {",
+									"    pm.expect(pm.response.json().error[0]).to.eql(\"O campo 'centro de custos' deve possuir no máximo 50 caracteres.\");",
+									"})",
+									"",
+									"pm.test(\"Name is longer than 50 char\", function(){",
+									"    pm.expect(pm.environment.get(\"CostCenterName\").length).to.be.greaterThan(50);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"costCenterName\": \"{{CostCenterName}}\",\n  \"boardId\": \"{{Id_board}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Cost Center Invalid Special Char",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function costName(){",
+									"    let name = [\"QA\", \"Desenvolvimento\", \"Arte\", \"Marketing\", \"Finanças\", \"Vendas\", \"SAC\", \"Recursos Humanos\", \"Jurídico\", \"Pesquisa e Desenvolvimento\", \"Logística\", \"Inovação\"]",
+									"    let character = [\"!\", \"@\", \"#\", \"$\", \"%\"]",
+									"    let costCenter = name[Math.floor(Math.random() * name.length)] + character[Math.floor(Math.random() * character.length)] ",
+									"",
+									"    return costCenter",
+									"}",
+									"",
+									"pm.environment.set(\"CostCenterName\", costName())"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {",
+									"    pm.response.to.have.status(400);",
+									"})",
+									"",
+									"pm.test('Message is right', function () {",
+									"    pm.expect(pm.response.json().msg).to.not.eql('Cadastro realizado com sucesso.');",
+									"})",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"costCenterName\": \"{{CostCenterName}}\",\n  \"boardId\": \"{{Id_board}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Cost Center With Numbers",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function costName(){",
+									"    let name = [\"QA\", \"Desenvolvimento\", \"Arte\", \"Marketing\", \"Finanças\", \"Vendas\", \"SAC\", \"Recursos Humanos\", \"Jurídico\", \"Pesquisa e Desenvolvimento\", \"Logística\", \"Inovação\"]",
+									"    let costCenter = name[Math.floor(Math.random() * name.length)] + _.random(1,100)",
+									"",
+									"    return costCenter",
+									"}",
+									"",
+									"pm.environment.set(\"CostCenterName\", costName())"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {",
+									"    pm.response.to.have.status(400);",
+									"})",
+									"",
+									"pm.test('Message is right', function () {",
+									"    pm.expect(pm.response.json().error[0]).to.eql(\"O campo 'centro de custos' só pode conter letras e o caractere especial '&'.\");",
+									"})",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"costCenterName\": \"{{CostCenterName}}\",\n  \"boardId\": \"{{Id_board}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Empty New Cost Center",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400', function () {",
+									"    pm.response.to.have.status(400);",
+									"})",
+									"",
+									"pm.test('Message is right', function () {",
+									"    pm.expect(pm.response.json().msg).to.not.eql('Cadastro realizado com sucesso.');",
+									"})",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"costCenterName\": \" \",\n  \"boardId\": \"{{Id_board}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Cost Center Only lowcase letters",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function costName(){",
+									"    let name = \"abcdefghijklmnopqrstuvwyz\"",
+									"    const characters = name.split('')",
+									"",
+									"    for (let i = characters.length - 1; i > 0; i--) {",
+									"        const j = Math.floor(Math.random() * (i + 1));",
+									"        [characters[i], characters[j]] = [characters[j], characters[i]];",
+									"    }",
+									"    const scrambledWord = characters.join('')",
+									"    return scrambledWord",
+									"}",
+									"",
+									"pm.environment.set(\"CostCenterName\", costName())"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 201', function () {",
+									"    pm.response.to.have.status(201);",
+									"})",
+									"",
+									"pm.test('Message is right', function () {",
+									"    pm.expect(pm.response.json().msg).to.eql('Cadastro realizado com sucesso.');",
+									"})",
+									"",
+									"pm.test(\"Id exists\", function(){",
+									"    pm.expect(pm.response.json().newCostCenter.costCenterCode).to.exist;",
+									"    pm.expect(pm.response.json().newCostCenter.costCenterName).to.exist;",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"costCenterName\": \"{{CostCenterName}}\",\n  \"boardId\": \"{{Id_board}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Cost Center Only Uppercase letters  and 50 characters",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function costName(){",
+									"    let name = \"abcdefghijklmnopqrstuvwyz\"",
+									"    const characters = name.split('')",
+									"",
+									"    for (let i = characters.length - 1; i > 0; i--) {",
+									"        const j = Math.floor(Math.random() * (i + 1));",
+									"        [characters[i], characters[j]] = [characters[j], characters[i]];",
+									"    }",
+									"    const scrambledWord = characters.join('') + characters.join('')",
+									"    return scrambledWord;",
+									"}",
+									"",
+									"pm.environment.set(\"CostCenterName\", costName())",
+									"console.log(pm.environment.get(\"CostCenterName\").length)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 201', function () {",
+									"    pm.response.to.have.status(201);",
+									"})",
+									"",
+									"pm.test('Message is right', function () {",
+									"    pm.expect(pm.response.json().msg).to.eql('Cadastro realizado com sucesso.');",
+									"})",
+									"",
+									"pm.test(\"Id exists\", function(){",
+									"    pm.expect(pm.response.json().newCostCenter.costCenterCode).to.exist;",
+									"    pm.expect(pm.response.json().newCostCenter.costCenterName).to.exist;",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"costCenterName\": \"{{CostCenterName}}\",\n  \"boardId\": \"{{Id_board}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "in",
+				"value": "query",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{Token}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "token",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://lost.qacoders-academy.com.br/api/costCenter/",
+			"type": "string"
+		}
+	]
+}
