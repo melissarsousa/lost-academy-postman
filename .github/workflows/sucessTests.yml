@@ -36,7 +36,7 @@ jobs:
         
         # Runs a set of commands using the runners shell
       - name: Step 3 Execute collection 1
-        run: newman run SystemLogin.postman_collection.json -e LOST.postman_environment.json \ && newman run -e LOST.postman_environment.json -r cli,htmlextra --reporter-htmlextra-export ./result/Report_CostCenter.html CostCenter.postman_collection.json \ && newman run -e LOST.postman_environment.json -r cli,htmlextra --reporter-htmlextra-export ./result/Report_UserLogin.html UserLogin.postman_collection.json
+        run: newman run SystemLogin.postman_collection.json -e LOST.postman_environment.json --export-globals globals.json && \ newman run -e LOST.postman_environment.json -g globals.json -r cli,htmlextra --reporter-htmlextra-export ./result/Report_CostCenter.html CostCenter.postman_collection.json && \ newman run -e LOST.postman_environment.json -g globals.json -r cli,htmlextra --reporter-htmlextra-export ./result/Report_UserLogin.html UserLogin.postman_collection.json       
         # Runs a set of commands using the runners shell
       - name: Step 4 Archive production artifacts
         uses: actions/upload-artifact@v3
