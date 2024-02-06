@@ -36,7 +36,7 @@ jobs:
         
         # Runs a set of commands using the runners shell
       - name: Step 3 Execute collection
-        run: newman run ./CostCenter.postman_collection.json -g ./LOST.postman_environment.json -e --reporter-htmlextra-export ./result/Report.html
+        run: newman run ./CostCenter.postman_collection.json -g ./LOST.postman_environment.json -e 
 
         # Runs a set of commands using the runners shell
       - name: Step 4 Archive production artifacts
