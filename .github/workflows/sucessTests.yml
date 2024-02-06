@@ -39,13 +39,13 @@ jobs:
        # run: newman run SystemLogin.postman_collection.json -e LOST.postman_environment.json && newman run CostCenter.postman_collection.json -e LOST.postman_environment.json && newman run UserLogin acess.postman_collection.json -e LOST.postman_environment.json --reporters cli, -r htmlextra --reporter-htmlextra-export ./result/Report.html      
         # Runs a set of commands using the runners shell
       - name: Run SystemLogin collection and update environment
-        run: newman run SystemLogin.postman_collection.json -e LOST.postman_environment.json --export-environment updated_environment.json
+        run: newman run SystemLogin.postman_collection.json -e LOST.postman_environment.json --export-environment updated_environment.json 
 
-      - name: Run CostCenter collection with updated environment
-        run: newman run CostCenter.postman_collection.json -e updated_environment.json -e LOST.postman_environment.json
+      #- name: Run CostCenter collection with updated environment
+      #  run: newman run CostCenter.postman_collection.json -e updated_environment.json -e LOST.postman_environment.json
 
       - name: Run UserLogin collection with updated environment
-        run: newman run UserLogin.postman_collection.json -e updated_environment.json
+        run: newman run UserLogin.postman_collection.json -e updated_environment.json --reporters cli, -r htmlextra --reporter-htmlextra-export ./result/Report.html  
         
       - name: Step 4 Archive production artifacts
         uses: actions/upload-artifact@v3
