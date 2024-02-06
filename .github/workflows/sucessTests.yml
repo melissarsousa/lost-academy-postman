@@ -36,7 +36,7 @@ jobs:
         
         # Runs a set of commands using the runners shell
       - name: Step 3 Execute collection 1
-        run: newman run SystemLogin.postman_collection.json && newman run CostCenter.postman_collection.json:[require('SystemLogin.postman_collection.json') && newman run UserLogin acess.postman_collection.json:[require('SystemLogin.postman_collection.json') -e LOST.postman_environment.json --reporters cli, -r htmlextra --reporter-htmlextra-export ./result/Report.html
+        run: newman run SystemLogin.postman_collection.json && \ newman run -e LOST.postman_environment.json -r cli,htmlextra --reporter-htmlextra-export ./result/Report.html \ CostCenter.postman_collection.json UserLogin.postman_collection.json
         
         # Runs a set of commands using the runners shell
       - name: Step 4 Archive production artifacts
