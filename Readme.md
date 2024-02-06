@@ -10,7 +10,7 @@ As collections incluídas são somente aquelas em que todos os testes passaram c
 
 ## Execução com report html extra
 ``` bash
-	newman run CostCenter.postman_collection.json -e LOST.postman_environment.json 
-	newman run CSystem Login.postman_collection.json -e LOST.postman_environment.json 
-	newman run UserLogin acess.postman_collection.json -e LOST.postman_environment.json 
+	newman run CostCenter.postman_collection.json -e LOST.postman_environment.json --reporters cli, -r htmlextra --reporter-htmlextra-export ./result/Report.html
+	newman run CSystem Login.postman_collection.json -e LOST.postman_environment.json --reporters cli, -r htmlextra --reporter-htmlextra-export ./result/Report.html
+	newman run UserLogin acess.postman_collection.json -e LOST.postman_environment.json --reporters cli, -r htmlextra --reporter-htmlextra-export ./result/Report.html
 ```
