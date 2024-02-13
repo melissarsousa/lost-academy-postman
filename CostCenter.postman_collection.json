@@ -78,6 +78,70 @@
 			"name": "Include",
 			"item": [
 				{
+					"name": "Include board Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function boardName(){",
+									"    let type = [\"Sala\", \"Loja\", \"Fábrica\", \"Departamento\", \"Dept\", \"Shopping\", \"Corporation\"]",
+									"    let name = [\"QA\", \"Desenvolvimento\", \"Arte\", \"Marketing\", \"Public Relations\", \"Vendas\", \"SAC\"]",
+									"    let name_of_board = type[Math.floor(Math.random() * type.length)] + \" \" + name[Math.floor(Math.random() * name.length)]",
+									"",
+									"    return name_of_board",
+									"}",
+									"",
+									"pm.environment.set(\"BoardName\", boardName())",
+									"console.log(pm.environment.get(\"BoardName\"))"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Message is right\", function(){",
+									"    pm.expect(pm.response.json().msg).to.eql(\"Cadastro realizado com sucesso!\");",
+									"});",
+									"",
+									"pm.test(\"Id exists\", function(){",
+									"    pm.expect(pm.response.json().newBoard.boardCode).to.exist;",
+									"    pm.environment.set(\"boardId\", pm.response.json().newBoard.boardCode)",
+									"    pm.environment.set(\"Id_board\", pm.response.json().newBoard._id)",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"boardName\": \"{{BoardName}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "New Cost Center",
 					"event": [
 						{
@@ -101,7 +165,6 @@
 							"script": {
 								"exec": [
 									"pm.test('Status code is 201', function () {",
-									"    console.log(pm.response.json());",
 									"    pm.response.to.have.status(201);",
 									"})",
 									"",
