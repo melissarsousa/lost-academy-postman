@@ -36,7 +36,7 @@ jobs:
         
         # Runs a set of commands using the runners shell
       - name: Step 3 Run Costcenter collection and update environment
-        run: newman run ./CostCenter.postman_collection.json -e ./LOST.postman_environment.json --reporters cli --reporter-htmlextra-export ./result/Report.html 
+        run: newman run ./CostCenter.postman_collection.json -e ./lost.postman_environment.json --reporters cli --reporter-htmlextra-export ./result/Report.html 
 
       - name: Step 4 Archive production artifacts
         uses: actions/upload-artifact@v3
