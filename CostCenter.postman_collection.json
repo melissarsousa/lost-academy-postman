@@ -101,8 +101,8 @@
 							"script": {
 								"exec": [
 									"pm.test('Status code is 201', function () {",
-									"    pm.response.to.have.status(201);",
 									"    console.log(pm.response.json());",
+									"    pm.response.to.have.status(201);",
 									"})",
 									"",
 									"pm.test('Message is right', function () {",
