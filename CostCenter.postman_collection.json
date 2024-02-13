@@ -106,7 +106,7 @@
 									"",
 									"pm.test('Message is right', function () {",
 									"    pm.expect(pm.response.json().msg).to.eql('Cadastro realizado com sucesso.');",
-									"    pm.console(pm.response.json().msg);",
+									"    pm.console(pm.response.json());",
 									"})",
 									"",
 									"pm.test(\"Id exists\", function(){",
