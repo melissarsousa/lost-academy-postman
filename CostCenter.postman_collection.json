@@ -8,6 +8,54 @@
 	},
 	"item": [
 		{
+			"name": "Admin Login Token",
+			"item": [
+				{
+					"name": "Get token Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"Token\",JSON.parse(responseBody).token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mail\": \"sysadmin@qacoders.com\",\n\t\"password\": \"1234@Test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://lost.qacoders-academy.com.br/api/login/",
+							"protocol": "https",
+							"host": [
+								"lost",
+								"qacoders-academy",
+								"com",
+								"br"
+							],
+							"path": [
+								"api",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "List",
 			"item": [
 				{
